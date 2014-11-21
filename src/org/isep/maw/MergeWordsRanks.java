@@ -109,7 +109,7 @@ public class MergeWordsRanks extends BaseRichBolt {
 		StringBuilder sb = new StringBuilder("[");
 
 		for (Entry<String, Double> e : resultMap.entrySet()) {
-			sb.append("{word:\"" + e.getKey() + "\", rank:" + e.getValue() + "},");
+			sb.append("{\"word\":\"" + e.getKey() + "\", \"rank\":" + e.getValue() + "},");
 		}
 		sb.replace(sb.length() - 1, sb.length(), "]");
 		
@@ -129,7 +129,7 @@ public class MergeWordsRanks extends BaseRichBolt {
 				try {
 					
 					Writer writer = new OutputStreamWriter(fos,
-							Charset.forName("UTF-8"));
+										Charset.forName("UTF-8"));
 					System.out.println("Writing NOW !");
 					writer.write(sb.toString());
 					writer.flush();
