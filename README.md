@@ -11,6 +11,6 @@ Usage: $ tweetAnalyzer top_n path_result [;|,] path_to_data1 path_to_data2 ..."
 
 Example:
 ```
-java -cp MAWTWeets.jar org.isep.maw.TweetAnalyzer 10 ./visualisation/result.json , ./dataset/test.csv
+java -jar ./target/MAWTWeets-0.0.1-SNAPSHOT.jar org.isep.maw.TweetAnalyzer 10 ./visualisation/result.json , ./dataset/test.csv
 ```
 
