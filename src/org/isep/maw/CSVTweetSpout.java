@@ -5,23 +5,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import com.google.common.io.Files;
+import org.apache.storm.spout.SpoutOutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.topology.base.BaseRichSpout;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Values;
 
-import backtype.storm.spout.SpoutOutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseRichSpout;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Values;
 
 public class CSVTweetSpout extends BaseRichSpout {
 	
@@ -48,12 +49,19 @@ public class CSVTweetSpout extends BaseRichSpout {
 	
 	private void init(List<String> fileList) throws FileNotFoundException {
 		for(String fileName: fileList) {
-			File f  = new File(fileName);
+			Path f  = Paths.get(fileName);
 			
-			if(f.exists()) {
+			if(f.toFile().exists()) {
 				System.out.println("OPENING: " + fileName);
-				BufferedReader br = Files.newReader(f, Charset.forName("UTF-8"));
-				scanList.add(br);
+				BufferedReader br = null;
+				try {
+					br = Files.newBufferedReader(f, Charset.forName("UTF-8"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(br!=null)
+					scanList.add(br);
 			}
 		}
 	}
