@@ -9,4 +9,13 @@ public class Utils {
 		 return tuple.getSourceComponent().equals(Constants.SYSTEM_COMPONENT_ID)
 		            && tuple.getSourceStreamId().equals(Constants.SYSTEM_TICK_STREAM_ID);
 		    }
+
+	public static int max(Integer[] window) {
+		Integer r = window[0];
+		
+		for(int i=1; i< window.length; i++)
+			r = r > window[i] ? r : window[i];
+		
+		return r;
+	}
 }
