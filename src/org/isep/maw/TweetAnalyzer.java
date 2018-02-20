@@ -18,6 +18,8 @@ public class TweetAnalyzer {
 	static private int WINDOW_SIZE = 60;
 	
 	private static LocalCluster cluster; 
+	
+	
 	public static void main(String [] args) throws FileNotFoundException {
 		if(args.length <= 3) {
 			System.out.println("Usage: $ tweetAnalyzer top_n path_result [;|,] path_to_data1 path_to_data2 ..." );
@@ -48,14 +50,13 @@ public class TweetAnalyzer {
 		Config conf = new Config();
 		conf.setDebug(true);
 		//2. run it for a while
-		cluster.submitTopology("TWEET 2018", conf, builder.createTopology());
+		cluster.submitTopology("TWEET2018", conf, builder.createTopology());
 		try {
 			Thread.sleep(47500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cluster.shutdown();		
-		
+		cluster.shutdown();
 	}
 }
