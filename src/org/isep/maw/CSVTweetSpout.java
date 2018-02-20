@@ -31,13 +31,18 @@ public class CSVTweetSpout extends BaseRichSpout {
 	
 	
 	private static final long serialVersionUID = 1L;
-	private SpoutOutputCollector _collector;
-	private final List<String> fileList;
-	private List<BufferedReader> scanList = new ArrayList<BufferedReader>();
-	private final Queue<Tweet> recQ = new PriorityQueue<Tweet>(MAX_QUEUE_SZ);
 	
-	public CSVTweetSpout(List<String> fileList) throws FileNotFoundException {
+	private SpoutOutputCollector _collector;
+	private List<BufferedReader> scanList = new ArrayList<BufferedReader>();
+	
+	private final List<String> fileList;
+	private final Queue<Tweet> recQ = new PriorityQueue<Tweet>(MAX_QUEUE_SZ);
+	private final String separator;
+	
+	
+	public CSVTweetSpout(String separator, List<String> fileList) throws FileNotFoundException {
 		this.fileList = fileList;
+		this.separator = separator;
 	}
 	
 	
@@ -79,7 +84,8 @@ public class CSVTweetSpout extends BaseRichSpout {
 						e1.printStackTrace();
 					}
 					if(tweetStr !=null) {
-						recQ.offer(scanTweet(tweetStr));
+						Tweet t = scanTweet(tweetStr);
+						if(t != null) recQ.offer(t);
 						
 					}else {
 						System.out.println("Nothing to read");
@@ -98,16 +104,23 @@ public class CSVTweetSpout extends BaseRichSpout {
 		// emit next tweet
 		Tweet tweet = recQ.poll();
 		if(tweet != null ) {
-			System.out.println(tweet.getId() + " " + tweet.getText() );
+			//System.out.println(tweet.getId() + " " + tweet.getText() );
 			_collector.emit(new Values(tweet.getId(),tweet.getCreationDate(), tweet.getText()));
 		}
 	}
 
 	private Tweet scanTweet(String  line) {
 		
-		StringTokenizer st = new StringTokenizer(line,";",false);
-		Tweet t = new Tweet(Long.parseLong(st.nextToken()), Long.parseLong(st.nextToken()), st.nextToken());
-	
+		System.out.println(line);
+		StringTokenizer st = new StringTokenizer(line,separator,false);
+		Tweet t = null;
+		try {
+			
+			//System.out.println("==== TEST ==== " + st.nextToken());
+		 t = new Tweet(Long.parseLong(st.nextToken()), Long.parseLong(st.nextToken()), st.nextToken());
+		} catch (Exception e) {
+			System.out.println(e.toString() + " " + e.getMessage());
+		}
 		return t;
 	}
 

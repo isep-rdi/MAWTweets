@@ -106,12 +106,12 @@ public class MergeWordsRanks extends BaseRichBolt {
 	private void writeResultsToFile(Map<String, Double> resultMap) {
 		// 1. Generate JSON string to write
 
-		StringBuilder sb = new StringBuilder("[");
+		StringBuilder sb = new StringBuilder("data = '[");
 
 		for (Entry<String, Double> e : resultMap.entrySet()) {
 			sb.append("{\"word\":\"" + e.getKey() + "\", \"rank\":" + e.getValue() + "},");
 		}
-		sb.replace(sb.length() - 1, sb.length(), "]");
+		sb.replace(sb.length() - 1, sb.length(), "]';");
 		
 		// 2. Write JSON result
 

@@ -119,6 +119,8 @@ public class RollingWordRank extends BaseRichBolt {
 		declarer.declare(new Fields("ranking"));
 		
 	}
+	
+	
 	 @Override
 	 public Map<String, Object> getComponentConfiguration() {
 		 Map<String, Object> conf = new HashMap<String, Object>();

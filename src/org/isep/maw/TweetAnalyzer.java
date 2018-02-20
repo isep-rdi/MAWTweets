@@ -20,12 +20,13 @@ public class TweetAnalyzer {
 	
 	private static LocalCluster cluster; 
 	public static void main(String [] args) throws FileNotFoundException {
-		if(args.length <= 2) {
-			System.out.println("Usage: $ tweetAnalyzer top_n path_result path_to_data1 path_to_data2 ..." );
+		if(args.length <= 3) {
+			System.out.println("Usage: $ tweetAnalyzer top_n path_result [;|,] path_to_data1 path_to_data2 ..." );
 			System.exit(0);
 		}
 		TOP = Integer.parseInt(args[0]);
 		String resultFilePath = args[1];
+		String separator = args[2];
 		
 		cluster = new LocalCluster();
 		List<String> fileList = Arrays.asList(args).subList(2, args.length);
@@ -37,7 +38,7 @@ public class TweetAnalyzer {
 		}
 		
 		TopologyBuilder builder = new TopologyBuilder();
-		builder.setSpout("tweet", new CSVTweetSpout(pathList));
+		builder.setSpout("tweet", new CSVTweetSpout(separator,pathList));
 		builder.setBolt("wordcount", new WordCountBolt(),3)
 					.shuffleGrouping("tweet");
 		builder.setBolt("rank", new RollingWordRank(TOP,EMIT_FREQ,WINDOW_SIZE),3) 
@@ -48,7 +49,7 @@ public class TweetAnalyzer {
 		Config conf = new Config();
 		conf.setDebug(true);
 		//2. run it for a while
-		cluster.submitTopology("MAW 2014", conf, builder.createTopology());
+		cluster.submitTopology("TWEET 2018", conf, builder.createTopology());
 		try {
 			Thread.sleep(47500);
 		} catch (InterruptedException e) {
