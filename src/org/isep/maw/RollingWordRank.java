@@ -1,6 +1,5 @@
 package org.isep.maw;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,19 +7,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.storm.Config;
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.topology.base.BaseRichBolt;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 
-import backtype.storm.Config;
-import backtype.storm.Constants;
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseRichBolt;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
 
-import com.google.common.primitives.Ints;
 
 public class RollingWordRank extends BaseRichBolt {
 	
@@ -80,7 +76,7 @@ public class RollingWordRank extends BaseRichBolt {
 		while(it.hasNext()) {
 			Entry<String, Integer[]> e = it.next();
 			Integer[] window = e.getValue();
-			int max = Ints.max( ArrayUtils.toPrimitive(window));
+			int max = Utils.max( window);
 			
 			// Update the window and set it back
 			
