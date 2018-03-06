@@ -21,6 +21,10 @@ import org.apache.storm.tuple.Values;
 public class RollingWordRank extends BaseRichBolt {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -881299232569737024L;
 	private OutputCollector _collector;
 	private final long emitFrequency, windowLength;
 	private final int nbBatches, top;
@@ -36,7 +40,7 @@ public class RollingWordRank extends BaseRichBolt {
 	}
 	
 	/**
-	 * Checks wether it is a tick tuple 
+	 * Checks whether it is a tick tuple 
 	 * Adds the count to the word,
 	 */
 	@Override

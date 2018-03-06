@@ -67,13 +67,8 @@ public class CSVTweetSpout extends BaseRichSpout {
 	}
 	@Override
 	public void nextTuple() {
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+			
+		org.apache.storm.utils.Utils.sleep(50);
 		//Refill the list
 		if(recQ.size() < THRESOLD ) { // Read from scanners.
 			

@@ -10,9 +10,11 @@ import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
+import org.apache.storm.utils.*;
 
 
 public class TweetAnalyzer {
+	
 	static private int TOP = 20;
 	static private int EMIT_FREQ = 30;
 	static private int WINDOW_SIZE = 60;
@@ -51,12 +53,11 @@ public class TweetAnalyzer {
 		conf.setDebug(true);
 		//2. run it for a while
 		cluster.submitTopology("TWEET2018", conf, builder.createTopology());
-		try {
-			Thread.sleep(47500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
+		org.apache.storm.utils.Utils.sleep(100000);
+		
+		
 		cluster.shutdown();
 	}
 }

@@ -17,6 +17,10 @@ import org.apache.storm.tuple.Values;
 
 
 public class WordCountBolt implements IRichBolt  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6717400697736283258L;
 	Set<String> excluded = new HashSet<>();
 	{
 		excluded.add("christmas");
